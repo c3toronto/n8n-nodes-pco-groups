@@ -1,4 +1,5 @@
 import {
+	IAuthenticateGeneric,
 	ICredentialType,
 	INodeProperties,
 } from 'n8n-workflow';
@@ -14,14 +15,14 @@ export class peopleApi implements ICredentialType {
 			default: 'https://api.planningcenteronline.com/people/v2',
 		},
 		{
-			displayName: 'Username',
-			name: 'username',
+			displayName: 'Client ID',
+			name: 'clientId',
 			type: 'string',
 			default: '',
 		},
 		{
-			displayName: 'Password',
-			name: 'password',
+			displayName: 'Client Secret',
+			name: 'clientSecret',
 			type: 'string',
 			typeOptions: {
 				password: true,
@@ -29,4 +30,14 @@ export class peopleApi implements ICredentialType {
 			default: '',
 		},
 	];
+
+	authenticate: IAuthenticateGeneric = {
+		type: 'generic',
+		properties: {
+			auth: {
+				username: '={{$credentials.clientId}}',
+				password: '={{$credentials.clientSecret}}',
+			},
+		},
+	};
 }
