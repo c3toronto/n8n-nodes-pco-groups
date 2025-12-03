@@ -6,7 +6,7 @@
     "n8n-community-node-package"
   ],
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://github.com/c3toronto/n8n-nodes-pco#readme",
   "author": {
     "name": "Sejin Kim",
     "email": "redacted@gmail.com"

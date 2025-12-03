@@ -1,112 +1,225 @@
-# @devlikeapro/n8n-nodes-petstore
+# @c3toronto/n8n-nodes-pco
 
-![n8n logo](n8n.png)
+![n8n.io - Workflow Automation](https://raw.githubusercontent.com/n8n-io/n8n/master/assets/n8n-logo.png)
 
-Example (Template) project for [**Petstore OpenAPI spec**](https://petstore3.swagger.io/)
-using [**devlikeapro/n8n-openapi-node**](https://github.com/devlikeapro/n8n-openapi-node)
+This is an n8n community node that lets you use [Planning Center Online](https://www.planningcenteronline.com/) (People API) in your n8n workflows.
 
-![screenshot](./images/screenshot.png)
+Planning Center People helps you manage contact data, membership info, and everything you need to know about your people with confidence.
 
-<!-- toc -->
+[n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
-- [Run Petstore n8n node locally](#run-petstore-n8n-node-locally)
-  * [NodeJS](#nodejs)
-  * [Install n8n](#install-n8n)
-  * [Start n8n](#start-n8n)
-  * [Build and link the project](#build-and-link-the-project)
-  * [Add node to n8n](#add-node-to-n8n)
-  * [Start n8n again](#start-n8n-again)
-  * [Add Petstore Node to new workflow](#add-petstore-node-to-new-workflow)
-- [Modify Project](#modify-project)
-  * [Test Project Locally](#test-project-locally)
-  * [Publish project](#publish-project)
+## Table of Contents
 
-<!-- tocstop -->
+- [Installation](#installation)
+- [Prerequisites](#prerequisites)
+- [Operations](#operations)
+- [Credentials](#credentials)
+- [Compatibility](#compatibility)
+- [Usage](#usage)
+- [Development](#development)
+- [Resources](#resources)
+- [License](#license)
 
-# Run Petstore n8n node locally
-Before start modifying the project, we kindly recommend
-to run the Petstore locally.
+## Installation
 
-## NodeJS
-Make sure you're using Node.js > 20 (we're using [nvm](https://github.com/nvm-sh/nvm)):
-```bash
-nvm install v22.8
-nvm use v22.8
-```
+Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes/installation/) in the n8n community nodes documentation.
 
-## Install n8n 
-```bash
-npm install n8n -g
-```
+### Community Node Installation
 
-## Start n8n
-```bash
-n8n --version
-n8n start
-```
-Open [http://localhost:5678](http://localhost:5678) in your browser and configure it
+1. Go to **Settings > Community Nodes** in your n8n instance
+2. Click **Install**
+3. Enter `@c3toronto/n8n-nodes-pco` in the npm Package Name field
+4. Agree to the risks and click **Install**
 
-## Build and link the project
-```bash
-npm install
-npm run test
-npm run build
-npm link
-```
+After installation, the Planning Center People node will appear in your nodes panel.
 
-## Add node to n8n
+### Manual Installation (Self-Hosted)
+
 ```bash
 cd ~/.n8n
-mkdir -p custom
-cd custom
-npm init # press Enter for all questions
-npm link @devlikeapro/n8n-nodes-petstore
+npm install @c3toronto/n8n-nodes-pco
 ```
 
-## Start n8n again
+Then restart your n8n instance.
+
+## Prerequisites
+
+You need the following:
+
+1. [n8n](https://n8n.io/) installation (self-hosted or cloud)
+2. A [Planning Center Online](https://www.planningcenteronline.com/) account
+3. Planning Center API credentials (Personal Access Token)
+
+## Operations
+
+This node provides access to the **Planning Center People API v2**, including operations for:
+
+- **People** - Manage person records and profiles
+- **Lists** - Create and manage dynamic lists of people
+- **Forms** - Access form submissions and responses
+- **Households** - Manage household relationships
+- **Campuses** - Access campus information
+- **Field Definitions** - Work with custom fields
+- **Notes** - Add and retrieve notes on person profiles
+- **Addresses** - Manage contact addresses
+- **Phone Numbers** - Manage contact phone numbers
+- **Emails** - Manage contact email addresses
+- **Workflows** - Access workflow data
+- **Messages** - View message history
+- **And many more...**
+
+Each operation supports filtering, pagination, and additional parameters through the "Additional Fields" option.
+
+## Credentials
+
+To connect to Planning Center Online, you'll need to create a Personal Access Token:
+
+1. Log in to your Planning Center account
+2. Go to your [Personal Access Tokens page](https://api.planningcenteronline.com/oauth/applications)
+3. Click **New Personal Access Token**
+4. Give it a name (e.g., "n8n Integration")
+5. Copy the **Application ID** and **Secret**
+
+In n8n, create a new "People API" credential with:
+- **URL**: `https://api.planningcenteronline.com/people/v2` (default)
+- **Client ID**: Your Application ID
+- **Client Secret**: Your Secret
+
+## Compatibility
+
+- **Tested with n8n version**: 1.120.4+
+- **Planning Center People API**: v2
+- **Node version**: 18.10 or higher
+
+## Usage
+
+### Example 1: Get All People
+
+1. Add the **Planning Center People** node
+2. Select **Resource**: Person
+3. Select **Operation**: GET /people
+4. Configure any filters in **Additional Fields** (optional)
+5. Execute the workflow
+
+### Example 2: Get Form Submissions
+
+1. Add the **Planning Center People** node
+2. Select **Resource**: Form
+3. Select **Operation**: GET /forms/{form_id}/form_submissions
+4. Enter the **Form Id**
+5. Add filters in **Additional Fields** if needed (e.g., date ranges)
+6. Execute the workflow
+
+### Example 3: Update a Person's Information
+
+1. Add the **Planning Center People** node
+2. Select **Resource**: Person
+3. Select **Operation**: PATCH /people/{person_id}
+4. Enter the **Person Id**
+5. Configure the fields to update in **Additional Fields**
+6. Execute the workflow
+
+### Tips
+
+- **Required fields** appear at the top level (e.g., `form_id`, `person_id`)
+- **Optional fields** are grouped under "Additional Fields" to keep the interface clean
+- Use the **filter** and **where** parameters to narrow down results
+- Check the [Planning Center API Documentation](https://developer.planning.center/docs/#/overview) for field details
+
+## Development
+
+### Setup
+
 ```bash
-n8n start
-```
+# Clone the repository
+git clone https://github.com/c3toronto/n8n-nodes-pco.git
+cd n8n-nodes-pco
 
-## Add Petstore Node to new workflow
-Find `Petstore` in the node list and add it to your workflow
-
-![workflow](./images/workflow.png)
-![screenshot](./images/screenshot.png)
-
-# Modify Project
-Now you're ready to start building your n8n community node!
-1. Place your `openapi.json` in `nodes/{YourNode}`
-2. Replace your project logo in `logo.svg`
-3. Rename all `Petstore` matches to `YourNode` 
-4. Rename all `petstore` matches to `yournode`
-5. Replace all `devlikeapro` to `{yourgithubname}`
-
-## Test Project Locally
-
-```bash
+# Install dependencies
 npm install
-npm run test
+
+# Build the project
 npm run build
+```
+
+### Local Testing
+
+```bash
+# Link the package locally
 npm link
-```
 
-Add node to n8n:
-```bash
-cd ~/.n8n
-mkdir -p custom
-cd custom
-npm init # press Enter for all questions
-npm link @devlikeapro/n8n-nodes-petstore
-```
+# In your n8n installation directory
+cd ~/.n8n/custom
+npm link @c3toronto/n8n-nodes-pco
 
-Start n8n:
-```bash
+# Start n8n
 n8n start
 ```
 
-## Publish project
-1. Add your `NPM_TOKEN` in GitHub Actions
-2. Push change
-3. Create a new GitHub Release, `1.0.0` in your project
-4. Install your node in n8n: `@{yourgithubname}/n8n-nodes-{yournode}`
+### Development Commands
+
+```bash
+# Build
+npm run build
+
+# Watch mode (rebuild on changes)
+npm run dev
+
+# Run tests
+npm run test
+
+# Lint
+npm run lint
+
+# Format code
+npm run format
+```
+
+### Project Structure
+
+```
+n8n-nodes-pco/
+├── credentials/
+│   └── peopleApi.credentials.ts    # API authentication
+├── nodes/
+│   └── pco/
+│       ├── people.node.ts          # Main node implementation
+│       ├── people.node.json        # Node metadata
+│       ├── openapi_people.json     # OpenAPI specification
+│       └── logo.png                # Node icon
+└── dist/                           # Compiled output
+```
+
+## Resources
+
+- [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
+- [Planning Center API Documentation](https://developer.planning.center/docs/)
+- [Planning Center People API Reference](https://developer.planning.center/docs/#/apps/people)
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## Version History
+
+See [CHANGELOG.md](CHANGELOG.md) for details.
+
+## License
+
+[MIT](LICENSE.md)
+
+## Credits
+
+This node was built using [@devlikeapro/n8n-openapi-node](https://github.com/devlikeapro/n8n-openapi-node), which generates n8n nodes from OpenAPI specifications.
+
+Built with ❤️ by [C3 Toronto](https://github.com/c3toronto)
+
+---
+
+**Note**: This is a community-maintained package and is not officially associated with Planning Center or n8n.io.
