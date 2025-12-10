@@ -1,10 +1,9 @@
-# @c3toronto/n8n-nodes-pco
+# @c3toronto/n8n-nodes-pco-groups
 
 ![n8n.io - Workflow Automation](https://raw.githubusercontent.com/n8n-io/n8n/master/assets/n8n-logo.png)
 
-This is an n8n community node that lets you use [Planning Center Online](https://www.planningcenteronline.com/) (People API) in your n8n workflows.
+This is an n8n community node that lets you use [Planning Center Online](https://www.planningcenteronline.com/) (Groups API) in your n8n workflows.
 
-Planning Center People helps you manage contact data, membership info, and everything you need to know about your people with confidence.
 
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
@@ -28,16 +27,16 @@ Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes
 
 1. Go to **Settings > Community Nodes** in your n8n instance
 2. Click **Install**
-3. Enter `@c3toronto/n8n-nodes-pco` in the npm Package Name field
+3. Enter `@c3toronto/n8n-nodes-pco-groups` in the npm Package Name field
 4. Agree to the risks and click **Install**
 
-After installation, the Planning Center People node will appear in your nodes panel.
+After installation, the Planning Center Groups node will appear in your nodes panel.
 
 ### Manual Installation (Self-Hosted)
 
 ```bash
 cd ~/.n8n
-npm install @c3toronto/n8n-nodes-pco
+npm install @c3toronto/n8n-nodes-pco-groups
 ```
 
 Then restart your n8n instance.
@@ -52,21 +51,17 @@ You need the following:
 
 ## Operations
 
-This node provides access to the **Planning Center People API v2**, including operations for:
+This node provides access to the **Planning Center Groups API v2**, including operations for:
 
-- **People** - Manage person records and profiles
-- **Lists** - Create and manage dynamic lists of people
-- **Forms** - Access form submissions and responses
-- **Households** - Manage household relationships
-- **Campuses** - Access campus information
-- **Field Definitions** - Work with custom fields
-- **Notes** - Add and retrieve notes on person profiles
-- **Addresses** - Manage contact addresses
-- **Phone Numbers** - Manage contact phone numbers
-- **Emails** - Manage contact email addresses
-- **Workflows** - Access workflow data
-- **Messages** - View message history
-- **And many more...**
+- **Campuses** - Access campus details and listings
+- **Groups** - Manage groups, including creation, update, and membership
+- **People** - List people and view person details (as group members)
+- **Group Applications** - Approve or reject requests to join groups
+- **Events** - Manage group events, attendance, and schedules
+- **Group Types** - Categorize and manage types of groups
+- **Tag Groups** - Organize and filter groups or people using tags
+
+Each resource supports listing, filtering, and retrieving detailed information where available, according to the [Planning Center Groups API v2](https://developer.planning.center/docs/#/groups/).
 
 Each operation supports filtering, pagination, and additional parameters through the "Additional Fields" option.
 
@@ -80,48 +75,20 @@ To connect to Planning Center Online, you'll need to create a Personal Access To
 4. Give it a name (e.g., "n8n Integration")
 5. Copy the **Application ID** and **Secret**
 
-In n8n, create a new "People API" credential with:
-- **URL**: `https://api.planningcenteronline.com/people/v2` (default)
+In n8n, create a new "Groups API" credential with:
+- **URL**: `https://api.planningcenteronline.com/groups/v2` (default)
 - **Client ID**: Your Application ID
 - **Client Secret**: Your Secret
 
 ## Compatibility
 
 - **Tested with n8n version**: 1.120.4+
-- **Planning Center People API**: v2
+- **Planning Center Groups API**: v2
 - **Node version**: 18.10 or higher
-
-## Usage
-
-### Example 1: Get All People
-
-1. Add the **Planning Center People** node
-2. Select **Resource**: Person
-3. Select **Operation**: GET /people
-4. Configure any filters in **Additional Fields** (optional)
-5. Execute the workflow
-
-### Example 2: Get Form Submissions
-
-1. Add the **Planning Center People** node
-2. Select **Resource**: Form
-3. Select **Operation**: GET /forms/{form_id}/form_submissions
-4. Enter the **Form Id**
-5. Add filters in **Additional Fields** if needed (e.g., date ranges)
-6. Execute the workflow
-
-### Example 3: Update a Person's Information
-
-1. Add the **Planning Center People** node
-2. Select **Resource**: Person
-3. Select **Operation**: PATCH /people/{person_id}
-4. Enter the **Person Id**
-5. Configure the fields to update in **Additional Fields**
-6. Execute the workflow
 
 ### Tips
 
-- **Required fields** appear at the top level (e.g., `form_id`, `person_id`)
+- **Required fields** appear at the top level (e.g., `group_id`, `person_id`)
 - **Optional fields** are grouped under "Additional Fields" to keep the interface clean
 - Use the **filter** and **where** parameters to narrow down results
 - Check the [Planning Center API Documentation](https://developer.planning.center/docs/#/overview) for field details
@@ -132,8 +99,8 @@ In n8n, create a new "People API" credential with:
 
 ```bash
 # Clone the repository
-git clone https://github.com/c3toronto/n8n-nodes-pco.git
-cd n8n-nodes-pco
+git clone https://github.com/c3toronto/n8n-nodes-pco-groups.git
+cd n8n-nodes-pco-groups
 
 # Install dependencies
 npm install
@@ -150,7 +117,7 @@ npm link
 
 # In your n8n installation directory
 cd ~/.n8n/custom
-npm link @c3toronto/n8n-nodes-pco
+npm link @c3toronto/n8n-nodes-pco-groups
 
 # Start n8n
 n8n start
@@ -180,12 +147,12 @@ npm run format
 ```
 n8n-nodes-pco/
 ├── credentials/
-│   └── peopleApi.credentials.ts    # API authentication
+│   └── PlanningCenter.credentials.ts    # API authentication
 ├── nodes/
 │   └── pco/
-│       ├── people.node.ts          # Main node implementation
-│       ├── people.node.json        # Node metadata
-│       ├── openapi_people.json     # OpenAPI specification
+│       ├── groups.node.ts          # Main node implementation
+│       ├── groups.node.json        # Node metadata
+│       ├── openapi_groups.json     # OpenAPI specification
 │       └── logo.png                # Node icon
 └── dist/                           # Compiled output
 ```
@@ -194,7 +161,7 @@ n8n-nodes-pco/
 
 - [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
 - [Planning Center API Documentation](https://developer.planning.center/docs/)
-- [Planning Center People API Reference](https://developer.planning.center/docs/#/apps/people)
+- [Planning Center Groups API Reference](https://developer.planning.center/docs/#/apps/groups)
 
 ## Contributing
 

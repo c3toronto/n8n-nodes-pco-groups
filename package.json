@@ -1,19 +1,19 @@
 {
-  "name": "@c3toronto/n8n-nodes-pco",
+  "name": "@c3toronto/n8n-nodes-pco-groups",
   "version": "1.0.0",
-  "description": "n8n node to connect with Planning Center Online",
+  "description": "n8n node to connect with Planning Center Groups",
   "keywords": [
     "n8n-community-node-package"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/c3toronto/n8n-nodes-pco#readme",
+  "homepage": "https://github.com/c3toronto/n8n-nodes-pco-groups#readme",
   "author": {
     "name": "Sejin Kim",
     "email": "redacted@gmail.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/c3toronto/n8n-nodes-pco.git"
+    "url": "https://github.com/c3toronto/n8n-nodes-pco-groups.git"
   },
   "engines": {
     "node": ">=18.10",
@@ -23,6 +23,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc && gulp build:icons",
+    "build:ts": "tsc",
     "dev": "tsc --watch",
     "test": "jest",
     "format": "prettier nodes credentials --write",
@@ -35,10 +36,10 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/peopleApi.credentials.js"
+      "dist/credentials/groupsApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/pco/people.node.js"
+      "dist/nodes/pco/groups.node.js"
     ]
   },
   "dependencies": {
@@ -50,9 +51,9 @@
     "@typescript-eslint/parser": "^7.15.0",
     "eslint": "^8.56.0",
     "eslint-plugin-n8n-nodes-base": "^1.16.1",
-    "gulp": "^4.0.2",
+    "gulp": "^5.0.1",
     "jest": "^29.7.0",
-    "n8n-workflow": "*",
+    "n8n-workflow": "^1.17.0",
     "prettier": "^3.3.2",
     "ts-jest": "^29.2.5",
     "typescript": "^5.5.3"
